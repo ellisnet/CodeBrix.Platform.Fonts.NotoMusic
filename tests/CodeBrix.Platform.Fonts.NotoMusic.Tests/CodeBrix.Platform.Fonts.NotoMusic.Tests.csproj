@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="xunit.v3" Version="3.2.2" />
+    <PackageReference Include="SilverAssertions.ApacheLicenseForever" Version="1.0.164.180" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CodeBrix.Platform.Fonts.NotoMusic\CodeBrix.Platform.Fonts.NotoMusic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\src\CodeBrix.Platform.Fonts.NotoMusic\Fonts\*.ttf" CopyToOutputDirectory="PreserveNewest" Link="TestAssets\Fonts\%(FileName)%(Extension)" />
+    <None Include="..\..\src\CodeBrix.Platform.Fonts.NotoMusic\Fonts\*.ttf.manifest" CopyToOutputDirectory="PreserveNewest" Link="TestAssets\Fonts\%(FileName)%(Extension)" />
+    <None Include="..\..\src\CodeBrix.Platform.Fonts.NotoMusic\CodeBrix.Platform.Fonts.NotoMusic.uprimarker" CopyToOutputDirectory="PreserveNewest" Link="TestAssets\CodeBrix.Platform.Fonts.NotoMusic.uprimarker" />
+  </ItemGroup>
+
+</Project>
