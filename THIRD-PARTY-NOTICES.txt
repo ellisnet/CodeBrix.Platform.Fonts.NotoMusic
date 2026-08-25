@@ -5,7 +5,7 @@ Noto Music font, packaged as a .NET 10 NuGet library. Noto Music is a
 musical-notation symbols font covering the Unicode music blocks — Western
 musical symbols, Byzantine musical symbols and ancient Greek musical
 notation — plus the miscellaneous-symbols music characters and a small set
-of supporting Latin, Greek and Cyrillic characters. The package incorporates
+of supporting Latin letters, digits and punctuation (no Greek or Cyrillic text glyphs). The package incorporates
 one piece of third-party material:
 
   1. The Noto Music font (SIL OFL 1.1) — the single bundled font file.

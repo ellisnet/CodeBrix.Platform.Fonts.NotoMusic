@@ -2,7 +2,7 @@
 
 A redistribution of the Noto Music font packaged as a CodeBrix-family NuGet library for .NET 10 applications.
 CodeBrix.Platform.Fonts.NotoMusic is a content-files font package for CodeBrix.Platform-forked applications — supplying the Noto Music font as a build-time asset — and is equally usable as a plain content-files NuGet in any .NET 10 project that wants the Noto Music font.
-Noto Music is a musical-notation symbols font, not a text face: it covers the Unicode music blocks — Western musical symbols, Byzantine musical symbols and ancient Greek musical notation — plus the miscellaneous-symbols music characters and a small set of supporting Latin, Greek and Cyrillic characters. It is intended to be referenced alongside (not instead of) one of the family's text font packages, such as CodeBrix.Platform.Fonts.OpenSans or CodeBrix.Platform.Fonts.Roboto.
+Noto Music is a musical-notation symbols font, not a text face: it covers the Unicode music blocks — Western musical symbols, Byzantine musical symbols and ancient Greek musical notation — plus the miscellaneous-symbols music characters and a small set of supporting Latin letters, digits and punctuation for notation labels (it has no Greek or Cyrillic text glyphs). It is intended to be referenced alongside (not instead of) one of the family's text font packages, such as CodeBrix.Platform.Fonts.OpenSans or CodeBrix.Platform.Fonts.Roboto.
 The library has no managed dependencies other than .NET, and is provided as a .NET 10 library and associated `CodeBrix.Platform.Fonts.NotoMusic.OflLicenseForever` NuGet package.
 
 CodeBrix.Platform.Fonts.NotoMusic supports applications and assemblies that target Microsoft .NET version 10.0 and later.
