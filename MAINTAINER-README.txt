@@ -37,6 +37,9 @@ REPOSITORY LAYOUT
     EXTRAS-README.txt           (NOT packed)
     README-INDEX.txt            (NOT packed)
     README.md                   (GitHub + nuget.org; packed)
+    global.json                 (selects the Microsoft.Testing.Platform
+                                 test runner; NOT packed)
+    .gitignore                  (NOT packed)
     LICENSE                     (SIL OFL 1.1; Noto Music copyright header)
     OFL.txt                     (byte-identical to LICENSE; packed)
     THIRD-PARTY-NOTICES.txt     (packed)
@@ -56,8 +59,9 @@ REPOSITORY LAYOUT
       TestAssetPaths.cs
 
 The `.slnx` carries the two projects plus a "Solution Items" folder
-listing AGENT-README.txt, icon-codebrix-128.png, LICENSE, OFL.txt,
-README.md and THIRD-PARTY-NOTICES.txt.
+listing .gitignore, AGENT-README.txt, EXTRAS-README.txt, global.json,
+icon-codebrix-128.png, LICENSE, MAINTAINER-README.txt, OFL.txt,
+README-INDEX.txt, README.md and THIRD-PARTY-NOTICES.txt.
 
 The `lib/net10.0/CodeBrix.Platform.Fonts.NotoMusic/Fonts/` layout inside
 the nupkg is load-bearing: the `ms-appx:///` URI consumers reference
@@ -85,6 +89,22 @@ TESTING
 ========================================================================
 
   dotnet test CodeBrix.Platform.Fonts.NotoMusic.slnx
+
+THE TEST RUNNER IS Microsoft.Testing.Platform, selected by global.json at
+the repository root. That file does NOT pin an SDK version, so the newest
+installed .NET 10 SDK is still used; it exists solely to select the
+runner:
+
+    { "test": { "runner": "Microsoft.Testing.Platform" } }
+
+Because the setting lives in global.json rather than in the test csproj,
+it applies to every `dotnet test` run anywhere in the repository. Keep the
+file committed -- without it `dotnet test` silently falls back to the
+older VSTest bridge.
+
+The test project's package references are Microsoft.NET.Test.Sdk,
+xunit.v3, xunit.runner.visualstudio and SilverAssertions; there is no
+coverage collector.
 
 No opt-in environment variables, no special preparation, no network
 access. The suite is pure file/JSON/assembly inspection: xUnit v3 plus
