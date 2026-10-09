@@ -25,7 +25,7 @@ The assembly carries no managed API and nothing to `using` - everything a consum
 ## CodeBrix.Platform.Fonts.NotoMusic supports:
 
 * The single Noto Music static font (`NotoMusic.ttf`) — Noto Music is published as exactly one face (Regular weight, upright, Normal stretch; no variable font and no italics), and it carries the dash-free family name used across the CodeBrix font packages.
-* A `NotoMusic.ttf.manifest` JSON file whose single entry maps the Normal/400/Normal `font_style` / `font_weight` / `font_stretch` triple to the font file — for platforms that resolve fonts through the static-instance manifest.
+* A `NotoMusic.ttf.manifest` JSON file whose single entry maps the Normal/400/Normal `font_style` / `font_weight` / `font_stretch` triple to the font file — the static-instance manifest every CodeBrix.Platform head resolves fonts through.
 * The CodeBrix `.uprimarker` file so CodeBrix.Platform build pipelines discover the package as a UPRI-bearing font asset library.
 
 Unlike the sibling font packages, this package deliberately ships **no** `buildTransitive` MSBuild `.targets` file (its only font is dash-free and must always be present, so there are no redundant static instances to prune) and **no** `CODEBRIX-DEVELOP.json` descriptor (Noto Music is not offered as an application text font in CodeBrix.Develop's New Application experience).
@@ -39,7 +39,7 @@ Unlike the sibling font packages, this package deliberately ships **no** `buildT
            FontFamily="ms-appx:///CodeBrix.Platform.Fonts.NotoMusic/Fonts/NotoMusic.ttf" />
 ```
 
-Note that the font URI carries no `#FamilyName` fragment. CodeBrix.Platform strips such a fragment before resolving the font, and leaving it on prevents the startup font-manifest preload from finding the manifest.
+Note that the font URI carries no `#FamilyName` fragment. CodeBrix.Platform strips such a fragment before resolving the font, so it buys nothing.
 
 ## Documentation
 

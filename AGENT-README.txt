@@ -114,12 +114,9 @@ ASSEMBLY name:
 That one URI is the entire addressable surface of the package.
 
 Do NOT append a `#FamilyName` fragment to it. CodeBrix.Platform strips
-the fragment before resolving the font, so it buys nothing — and on the
-value assigned to `FeatureConfiguration.Font.DefaultTextFontFamily` it
-actively breaks the startup font-manifest preload, because the
-".manifest" suffix the preload appends lands inside the URI fragment and
-is then dropped. (Setting Noto Music as the default TEXT font would be a
-mistake anyway — it is a symbols font.)
+the fragment before resolving the font, so it buys nothing. (Setting Noto
+Music as the default TEXT font would be a mistake anyway — it is a symbols
+font.)
 
 
 FONT INVENTORY
@@ -221,10 +218,18 @@ SUPPORTING TEXT CHARACTERS (334 codepoints)
   The supporting Latin exists for notation labels ("Allegro", "8va",
   rehearsal letters), not for body text. Use a text font for prose.
 
-The CodeBrix family never falls back to a system font, so a codepoint
-outside the coverage above renders as `.notdef` rather than borrowing a
-glyph from the OS — and this font draws a BOX for `.notdef`, so a miss
-shows up as a tofu box rather than vanishing.
+By default CodeBrix.Platform looks for a character the requested font
+lacks first in the framework's symbols font, then in
+`FeatureConfiguration.Font.FallbackFontFamilies` (empty by default) and
+then in the host machine's installed fonts; setting
+`FeatureConfiguration.Font.RestrictToEmbeddedFonts = true` before the
+first text is measured confines it to the fonts the application ships (the
+PlayTest head always turns it on; the frame-buffer emulated head turns it
+on when its launch contract asks for font isolation). A codepoint outside
+the coverage above that no other font supplies renders as `.notdef` — and
+this font draws a BOX for `.notdef`, so a miss shows up as a tofu box
+rather than vanishing. Do not rely on host fonts: ship the fonts your text
+needs.
 
 
 WRITING MUSIC CHARACTERS: XAML AND C# ESCAPES
@@ -506,10 +511,7 @@ COMMON PITFALLS TO AVOID
     font.
 
   * NEVER add a `#FamilyName` fragment to the font URI. CodeBrix.Platform
-    strips it during font resolution, and on `DefaultTextFontFamily` it
-    silently disables the startup manifest preload (the appended
-    ".manifest" lands inside the fragment and is dropped by
-    `Uri.PathAndQuery`).
+    strips it during font resolution, so it never helps.
 
   * Do not write `NotoMusic-Regular.ttf` in a URI. That upstream name
     does not exist in this package — the file is `NotoMusic.ttf`.
@@ -525,9 +527,11 @@ COMMON PITFALLS TO AVOID
     shipped `cmap` has none. The "Greek" in this font is the ancient
     musical-notation block.
 
-  * There is no system-font fallback anywhere in the CodeBrix family.
-    A codepoint this font lacks will not be borrowed from the OS; it
-    renders as `.notdef`, which this font draws as a box.
+  * Do not count on host fonts for codepoints this font lacks. By default
+    the framework may borrow a glyph from an installed font, which a device
+    or another machine may not have; under
+    `FeatureConfiguration.Font.RestrictToEmbeddedFonts` (or wherever no font
+    has the glyph) it renders as `.notdef`, which this font draws as a box.
 
   * `ms-appx:///` is a CodeBrix.Platform concept, not a .NET one. In a
     console app or unit test the URI will not resolve; locate the file on
@@ -559,8 +563,9 @@ WHAT THIS PACKAGE DOES NOT DO
     CodeBrix.Platform.Fonts.Merriweather descriptor. Assume you must
     name this font explicitly on the run that needs it.
   * It does not install fonts into the operating system.
-  * It does not fall back to a system font, and cannot make one
-    available.
+  * It does not make a system font available; whether host fonts are
+    consulted for missing characters is CodeBrix.Platform's setting
+    (`FeatureConfiguration.Font.RestrictToEmbeddedFonts`).
   * It has no runtime dependency on CodeBrix.Platform: nothing stops a
     non-platform project from referencing the package for the font file
     alone.
@@ -643,5 +648,5 @@ RULES
 
   * Symbols font — pair it with a text font; never make it the default.
   * Switch FontFamily per <Run>; nothing selects this font for you.
-  * No system-font fallback; uncovered codepoints render as a .notdef
-    box.
+  * Do not rely on host fonts; uncovered codepoints no font supplies render
+    as a .notdef box.
